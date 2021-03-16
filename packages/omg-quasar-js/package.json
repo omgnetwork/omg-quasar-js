@@ -1,0 +1,16 @@
+{
+  "name": "quasar_js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "quasar.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@omisego/omg-js-util": "^4.1.2-1.0.4",
+    "ethereumjs-util": "^7.0.9",
+    "human-standard-token-abi": "^2.0.0"
+  }
+}
