@@ -1,4 +1,4 @@
-## omg-quasar-js
+# omg-quasar-js
 
 This is a JavaScript Library to interact with OMG Network's Quasar
 
