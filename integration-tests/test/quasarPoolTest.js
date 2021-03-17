@@ -16,20 +16,15 @@ limitations under the License. */
 const Web3 = require('web3');
 const ChildChain = require('@omisego/omg-js-childchain');
 const RootChain = require('@omisego/omg-js-rootchain');
-const { transaction } = require('@omisego/omg-js-util');
 const chai = require('chai');
-const numberToBN = require('number-to-bn');
-const promiseRetry = require('promise-retry');
 const path = require('path');
 const config = require('../test-config');
 const rcHelper = require('../helpers/rootChainHelper');
 const faucet = require('../helpers/faucet');
-const ccHelper = require('../helpers/childChainHelper');
-const Quasar = require('../../packages/omg-quasar-js/src/quasar');
+const Quasar = require('@omisego/omg-quasar-js');
 
 const { assert } = chai;
 const faucetName = path.basename(__filename);
-const POLL_INTERVAL = 3000;
 
 describe('Quasar Pool test', () => {
   const web3 = new Web3(new Web3.providers.HttpProvider(config.eth_node));

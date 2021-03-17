@@ -25,7 +25,7 @@ const config = require('../test-config');
 const rcHelper = require('../helpers/rootChainHelper');
 const faucet = require('../helpers/faucet');
 const ccHelper = require('../helpers/childChainHelper');
-const Quasar = require('../../packages/omg-quasar-js/src/quasar');
+const Quasar = require('@omisego/omg-quasar-js');
 
 const { assert } = chai;
 const faucetName = path.basename(__filename);
