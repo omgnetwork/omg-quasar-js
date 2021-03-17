@@ -49,7 +49,7 @@ describe('Quasar Pool test', () => {
     });
   });
 
-  describe('When the pool is supplied', () => {
+  describe('When the pool is supplied ETH', () => {
     const ALICE_SUPPLY_AMOUNT = web3.utils.toWei('.5', 'ether');
 
     let aliceAccount;
@@ -113,6 +113,98 @@ describe('Quasar Pool test', () => {
       it('should withdraw from supply', async () => {
           const aliceQEthBalanceAfterWithdraw = await quasar.getQTokenBalance({ supplierAddress: aliceAccount.address});
           assert.equal(aliceQEthBalanceAfterWithdraw, 0);
+      });
+    });
+  });
+
+  describe('When the pool is supplied ERC20', function () {
+    const INTIIAL_ALICE_AMOUNT_ETH = web3.utils.toWei('.1', 'ether')
+    const ALICE_AMOUNT_ERC20 = 3
+    const TEST_AMOUNT = 2
+
+    let aliceAccount
+
+    before(async function () {
+      aliceAccount = rcHelper.createAccount(web3)
+      await faucet.fundRootchainEth(aliceAccount.address, INTIIAL_ALICE_AMOUNT_ETH)
+      await faucet.fundRootchainERC20(aliceAccount.address, ALICE_AMOUNT_ERC20)
+
+      await Promise.all([
+        rcHelper.waitForEthBalanceEq(web3, aliceAccount.address, INTIIAL_ALICE_AMOUNT_ETH),
+        rcHelper.waitForERC20BalanceEq(web3, aliceAccount.address, config.erc20_contract_address, ALICE_AMOUNT_ERC20)
+      ])
+    })
+
+    after(async function () {
+      try {
+        await faucet.returnFunds(aliceAccount)
+      } catch (err) {
+        console.warn(`Error trying to return funds to the faucet: ${err}`)
+      }
+    })
+
+    it('should deposit ERC20 tokens to the Plasma contract', async function () {
+      // The new account should have no initial balance
+      const initialBalance = await childChain.getBalance(aliceAccount.address)
+      assert.equal(initialBalance.length, 0)
+
+      // Account must approve the Quasar contract
+      await quasar.approveToken({
+        erc20Address: config.erc20_contract_address,
+        amount: TEST_AMOUNT,
+        txOptions: {
+          from: aliceAccount.address,
+          privateKey: aliceAccount.privateKey
+        }
+      })
+
+      const aliceQTokenBalanceBeforeSupply = await quasar.getQTokenBalance({
+        erc20Address: config.erc20_contract_address,
+        supplierAddress: aliceAccount.address,
+      });
+
+      // Provide liquidity to the quasar
+      await quasar.addTokenCapacity({
+          token: config.erc20_contract_address,
+          amount: TEST_AMOUNT,
+          txOptions: {
+            from: aliceAccount.address,
+            privateKey: aliceAccount.privateKey,
+          }
+      });
+
+      const aliceQTokenBalanceAfterSupply = await quasar.getQTokenBalance({
+        erc20Address: config.erc20_contract_address,
+        supplierAddress: aliceAccount.address,
+      });
+
+      assert.isTrue(aliceQTokenBalanceAfterSupply > aliceQTokenBalanceBeforeSupply);
+    });
+
+    describe('When the erc20 fund is withdrawn', () => {
+      before(async () => {
+        const aliceQTokenBalanceAfterSupply = await quasar.getQTokenBalance({
+          erc20Address: config.erc20_contract_address,
+          supplierAddress: aliceAccount.address,
+        });
+
+        await quasar.withdrawFunds({
+          token: config.erc20_contract_address,
+          amount: aliceQTokenBalanceAfterSupply,
+          txOptions: {
+            from: aliceAccount.address,
+            privateKey: aliceAccount.privateKey,
+          }
+        })
+      });
+
+      it('should withdraw from supply', async () => {
+          const aliceQTokenBalanceAfterWithdraw = await quasar.getQTokenBalance({
+            erc20Address: config.erc20_contract_address,
+            supplierAddress: aliceAccount.address,
+          });
+
+          assert.equal(aliceQTokenBalanceAfterWithdraw, 0);
       });
     });
   });

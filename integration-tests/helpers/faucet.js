@@ -42,8 +42,8 @@ const faucet = {
 
     if (topup) {
       await this.initEthBalance(this.web3.utils.toWei(config.min_amount_eth_per_test, 'ether'), config.topup_multipler);
-      // await this.initERC20Balance(config.min_amount_erc20_per_test, config.topup_multipler);
-      // await this.addToken(this.erc20ContractAddress);
+      await this.initERC20Balance(config.min_amount_erc20_per_test, config.topup_multipler);
+      await this.addToken(this.erc20ContractAddress);
       await this.addToken(transaction.ETH_CURRENCY);
       await this.showInfo();
     }
