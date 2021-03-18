@@ -1,0 +1,29 @@
+{
+  "name": "@omisego/omg-quasar-js",
+  "version": "1.0.0",
+  "description": "JavaScript Library to interact with OMG Network's Quasar",
+  "keywords": [
+    "OMG",
+    "OmiseGo",
+    "Plasma",
+    "Quasar"
+  ],
+  "main": "src/quasar.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/omgnetwork/omg-quasar-js.git"
+  },
+  "author": "OMG Network",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@omisego/omg-js-util": "^4.1.2-1.0.4",
+    "ethereumjs-util": "^7.0.9",
+    "human-standard-token-abi": "^2.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
