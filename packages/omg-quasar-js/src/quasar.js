@@ -272,6 +272,7 @@ class Quasar {
     async repayOwedToken({
         amount,
         currency = transaction.ETH_CURRENCY,
+        txOptions,
     }) { 
         const isEth = currency === transaction.ETH_CURRENCY;
         const _amount = amount.toString()
