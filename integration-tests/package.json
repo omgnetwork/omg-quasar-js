@@ -15,7 +15,7 @@
     "@omisego/omg-js-childchain": "^4.1.2-1.0.4",
     "@omisego/omg-js-rootchain": "^4.1.2-1.0.4",
     "@omisego/omg-js-util": "^4.1.2-1.0.4",
-    "@omisego/omg-quasar-js": "^1.0.0",
+    "@omisego/omg-quasar-js": "^1.0.1",
     "chai": "^4.3.4",
     "dotenv": "^8.2.0",
     "human-standard-token-abi": "^2.0.0",
