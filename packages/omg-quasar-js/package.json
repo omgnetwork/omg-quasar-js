@@ -1,6 +1,6 @@
 {
   "name": "@omisego/omg-quasar-js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "JavaScript Library to interact with OMG Network's Quasar",
   "keywords": [
     "OMG",
